@@ -1,0 +1,19 @@
+<svg id="Группа_1" data-name="Группа 1" xmlns="http://www.w3.org/2000/svg" width="50" height="37.25" viewBox="0 0 50 37.25">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #c7f9d8;
+        stroke-width: 5px;
+      }
+
+      .cls-2 {
+        stroke-linecap: round;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <rect id="Rounded_Rectangle_1" data-name="Rounded Rectangle 1" class="cls-1" x="2.5" y="2.5" width="45" height="32.25" rx="16.125" ry="16.125"/>
+  <path id="Rounded_Rectangle_2" data-name="Rounded Rectangle 2" class="cls-2" d="M565.253,66.907l4.6,4.6a3,3,0,0,1,0,4.243l-4.6,4.6" transform="translate(-534 -54.875)"/>
+  <path id="Rounded_Rectangle_2_copy" data-name="Rounded Rectangle 2 copy" class="cls-2" d="M553.253,66.907l4.6,4.6a3,3,0,0,1,0,4.243l-4.6,4.6" transform="translate(-534 -54.875)"/>
+</svg>

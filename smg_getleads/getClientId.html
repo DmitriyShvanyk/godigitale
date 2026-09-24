@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <!-- <meta http-equiv="Access-Control-Allow-Origin" content="http://localhost:8888"> -->
+</head>
+
+<body>
+  <script>
+    window.onload = function () {
+      // Create a request variable and assign a new XMLHttpRequest object to it.
+      var xhr = new XMLHttpRequest()
+      xhr.withCredentials = true;
+  
+      var grant_type = "client_credentials";
+      var client_id = "d839874a-15fa-4433-a0e5-dd7951387117";
+      var client_secret = "1tVYGDCwBRsRuh64cKZI5Dikqz9Yggub";
+  
+      // Open a new connection, using the GET request on the URL endpoint
+      xhr.open('GET', 'https://706-YIA-261.mktorest.com/identity/oauth/token?grant_type=' + grant_type + '&client_id=' + client_id + '&client_secret=' + client_secret, true)
+  
+      xhr.onload = function () {
+        // Begin accessing JSON data here
+        var data = JSON.parse(this.response)
+  
+        data.forEach((access_token) => {
+          // Log each access_token
+          alert(access_token)
+          console.log(access_token)
+        })
+      }
+  
+      // Send request
+      xhr.send()
+        }
+  
+  </script>
+
+</body>
+
+
+
+</html>

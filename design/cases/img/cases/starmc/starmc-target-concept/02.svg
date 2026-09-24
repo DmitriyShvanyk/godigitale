@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="45" height="45" viewBox="0 0 45 45">
+  <defs>
+    <style>
+      .cls-1 {
+        fill-rule: evenodd;
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="971.49" y1="5336" x2="945.51" y2="5291" gradientUnits="userSpaceOnUse">
+      <stop offset="-0.25" stop-color="#c58b29"/>
+      <stop offset="-0.227" stop-color="#c58b29"/>
+      <stop offset="1.25" stop-color="#ffdf85"/>
+    </linearGradient>
+  </defs>
+  <path id="_8-web_-_tick_done_browser" data-name="8-web - tick done browser" class="cls-1" d="M979.5,5335.99h-42a1.5,1.5,0,0,1-1.5-1.5v-42a1.506,1.506,0,0,1,1.5-1.5h42a1.506,1.506,0,0,1,1.5,1.5v42A1.5,1.5,0,0,1,979.5,5335.99ZM978,5295.5a1.507,1.507,0,0,0-1.5-1.51h-36a1.508,1.508,0,0,0-1.5,1.51v7.5h39v-7.5Zm0,10.49H939v25.5a1.508,1.508,0,0,0,1.5,1.51h36a1.507,1.507,0,0,0,1.5-1.51v-25.5Zm-21.748,20.99h-0.008l-8.231-6.73,2.247-2.24,5.767,4.71,10.717-10.71,2.246,2.24-12.73,12.73h-0.008ZM945,5300h-3v-3.01h3V5300Zm6,0h-3v-3.01h3V5300Zm6,0h-3v-3.01h3V5300Z" transform="translate(-936 -5291)"/>
+</svg>

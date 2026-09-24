@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="47.91" height="45.06" viewBox="0 0 47.91 45.06">
+  <defs>
+    <style>
+      .cls-1 {
+        fill-rule: evenodd;
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="1332.993" y1="5336.03" x2="1306.977" y2="5290.97" gradientUnits="userSpaceOnUse">
+      <stop offset="-0.25" stop-color="#c58b29"/>
+      <stop offset="-0.227" stop-color="#c58b29"/>
+      <stop offset="1.25" stop-color="#ffdf85"/>
+    </linearGradient>
+  </defs>
+  <path id="_62-ecommerce_-_jewelry_diamond" data-name="62-ecommerce - jewelry diamond" class="cls-1" d="M1343.5,5307.38l-20.85,25.71,0.06,0.17-0.28.09-1.76,2.17a1.019,1.019,0,0,1-1.76-.01l-22.45-28.37a2.641,2.641,0,0,1-.17-2.54l6.52-12.29a2.759,2.759,0,0,1,2.2-1.33h29.94a2.744,2.744,0,0,1,2.2,1.33l6.54,12.54A2.622,2.622,0,0,1,1343.5,5307.38Zm-23.73,18.53,7.92-19.93h-15.9Zm6.81-22.93-6.72-8.98-6.72,8.98h13.44Zm-8.67,26.26-9.18-23.24h-0.85l0.02-.02h-8.57Zm-13.36-33.82-4.01,7.56h6.99Zm5.88,7.18,6.46-8.62h-9.91Zm12.45-8.62,6.24,8.38,3.33-8.38h-9.57Zm12.35,1.12-3.13,7.88h7.24Zm-3.41,10.88,0.02,0.02h-0.94l-9.32,23.46,19.23-23.48h-8.99Z" transform="translate(-1296.03 -5290.97)"/>
+</svg>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<title>Simplermedia API</title>
+	<meta charset="utf-8" />
+	<meta name="keywords" content='Simplermedia API'>
+	<meta name="description" content='Simplermedia API'>
+
+	<meta name="format-detection" content="telephone=no">
+	<meta name="mobile-web-app-capable" content="yes">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- favicon -->
+	<link rel="shortcut icon" href="fav-new.png">
+
+	<!-- main style -->
+	<link href="css/style.css?v=1.04" rel="stylesheet">
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+	<script src="https://kit.fontawesome.com/92c9b74b46.js"></script>
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+
+<body>	
+
+	<!--header.begin-->
+	<header class="header">
+		<div class="container">
+			<div class="header__inner" style="padding-bottom: 50px;">
+
+				<a href="#" class="header__logo">
+					<img class="header__logo-image" src="img/smg_logo.jpg" alt="Simplermedia" style="max-width: 150px;">
+				</a>
+
+				<h1 class="header__title" style="color: #fff;">
+					Get leads data
+				</h1>
+
+				<h2 class="header__subtitle" style="color: #fff;">
+					Here you can get some data from Marketo. Before entering a value into the input – read what you can do.
+				</h2>
+				<input type="text" placeholder="Enter Value" id="inputValue" style="border-radius: 24px; border: 1px solid; border-color: #fafafa; padding: 20px;">
+				<!-- <select id="selectForm" name="form_select">
+					<option value="0">Get Leads by Program ID</option>
+					<option value="1">Get Lead Data by Lead ID</option>
+				</select> -->
+				<!-- <a href="#" id="getData" class="btn btn-lg btn-brand" style="color: #000; background: rgb(255, 255, 255);">
+					<span class="btn__text">Get Data</span>
+				</a> -->
+			</div>
+		</div>
+
+	</header>
+	<!--header.end-->
+
+		<!--program.begin-->
+		<section class="program">
+			<div class="container">
+	
+				<div class="heading heading--program">
+					<h2 class="heading__title">
+						Choose what you want
+					</h2>
+				</div>
+	
+				<div class="program__inner">
+					<div class="program__item">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="program__duration">
+									# 1
+								</div>
+							</div>
+						</div>					
+						<div class="row">
+							<div class="col-lg-8">
+								<div class="program__content">
+									<h3 class="program__title">Get leads data by program id</h3>
+									<p class="program__paragraph">Get leads from a specific Program. You need Enter the program ID and click on the button. Do not forget that the ID should only contain numbers.
+									<p class="program__paragraph">
+										<a href="#" id="getLeadsByProgramId" class="btn btn-lg btn-brand" style="color: #fff; background: #009EDB;">
+											<span class="btn__text">Get Leads</span>
+										</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+	
+					<div class="program__item">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="program__duration">
+									# 2
+								</div>
+							</div>
+						</div>	
+						<div class="row">
+							<div class="col-lg-8">
+								<div class="program__content">
+									<h3 class="program__title">Get lead data by lead id</h3>
+									<p class="program__paragraph">Get lead data. You need Enter the lead ID and click on the button. Don't forget that the ID should only contain numbers.</p>
+									<p class="program__paragraph">
+										<a href="#" id="geLeadDataByLeadId" class="btn btn-lg btn-brand" style="color: #fff; background: #009EDB;">
+											<span class="btn__text">Get Lead Data</span>
+										</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+	
+					<div class="program__item">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="program__duration">
+									# 3
+								</div>
+							</div>
+						</div>	
+						<div class="row">
+							<div class="col-lg-8">
+								<div class="program__content">
+									<h3 class="program__title">Get leads data by static list id</h3>
+									<p class="program__paragraph">Get leads from a specific Static List. You need Enter the Static List ID and click on the button. Do not forget that the ID should only contain numbers.</p>
+									<p class="program__paragraph">
+										<a href="#" id="geLeadsByStaticListId" class="btn btn-lg btn-brand" style="color: #fff; background: #009EDB;">
+											<span class="btn__text">Get Info</span>
+										</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+	
+				</div>
+	
+			</div>
+		</section>
+		<!--program.end-->
+
+	
+	<!--garant.begin-->
+	<section class="garant">
+		<div class="container">
+			<div class="heading heading--garant">
+				<div class="garant__i">
+					<img class="garant__i-img" src="img/i-ok.png" srcset="img/i-ok@2x.png 2x" alt="">
+				</div>
+				<h2 class="heading__title">
+					Test only test
+				</h2>
+				<p class="heading__subtitle">
+					This is the page where you can test the API
+				</p>
+			</div>
+		</div>
+	</section>
+	<!--garant.end-->
+
+
+
+	<!--scripts.begin-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="js/jquery-migrate.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.fancybox.min.js"></script>
+	<script src="js/jquery.paroller.min.js"></script>
+	<script src="js/wow.min.js"></script>
+	<script src="js/sweetalert.min.js"></script>
+	<script src="js/blazy.min.js"></script>
+	<script src="js/perfect-scrollbar.min.js"></script>
+	<script src="js/jquery.form.js"></script>
+	<script src="js/jquery.validate.min.js"></script>
+	<script src="js/form.validation.js?v=1.04"></script>
+	<script src="https://api-maps.yandex.ru/2.1/?apikey=9907a41b-f6f6-441d-9550-5335c8bb8f79&lang=ru-RU"></script>	
+	<script src="js/scripts.js?v=1.04"></script>
+	<script src="js/api.js"></script>
+	<!--scripts.end-->
+
+	<script>fbq('trackCustom', 'ms-page');</script>
+	<script>
+			var btns = document.querySelectorAll('.fb-track');
+			for (let i = 0; i < btns.length; i++) {
+					btns[i].onclick = function () { 
+							fbq('trackCustom', btns[i].id); 
+							} 
+			}
+	</script>
+
+</body>
+
+</html>
