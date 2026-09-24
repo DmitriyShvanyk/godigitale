@@ -45,9 +45,6 @@
 
 
 	// banners
-	/*const design = document.querySelector('.design');
-  	if (design) new HorizontalScrollPin(design, { strip: '.design__banners' });*/
-
 	new HorizontalScrollPin(document.querySelector('.design'), {
 		strip: '.design__banners',
 		ratio: 3,     
@@ -55,71 +52,62 @@
 	});
 	
 	
-	// typed text when scroll page
-	function isScrolledIntoView(elem) {
-		var docViewTop = $(window).scrollTop();
-		var docViewBottom = docViewTop + $(window).height();
-		var elemTop = $(elem).offset().top;
-		var elemBottom = elemTop + $(elem).height();
-		return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom) && (elemBottom <= docViewBottom) && (elemTop >= docViewTop));
-	}		
-	
-	$(window).scroll(function() {
-		
-		if (isScrolledIntoView($('.g-speak-support'))) {
-			
-			$(".g-women-robot-text-typed-js").typed({
-				strings: ["I think you understand why it’s so important."],
-				typeSpeed: 20,  
-				startDelay: 200, 
-				backSpeed: 80,   
-				backDelay: 500, 
-				smartBackspace: true,  
-				
-			});			
+	// typed text
+	const typingTasks = [
+    {
+      trigger: '.g-speak-support',
+      target: '.g-women-robot-text-typed-js',
+      options: {
+        strings: ["I think you understand why it’s so important."],
+        typeSpeed: 20,
+        startDelay: 200,
+        backSpeed: 80,
+        backDelay: 500
+      }
+    },
+    {
+      trigger: '.section-launch-new-products',
+      target: '.g-launch-new-products-typed-js',
+      options: {
+        strings: ["Digital marketing for startups & products"],
+        typeSpeed: 20,
+        startDelay: 200,
+        backSpeed: 80,
+        backDelay: 500
+      }
+    }
+  ];
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const triggerEl = entry.target;
+        const task = typingTasks.find(t => triggerEl.matches(t.trigger));
+
+        if (task) {
+          const targetEl = document.querySelector(task.target);
+          
+          if (targetEl) {
+            new Typed(targetEl, task.options);
+            observer.unobserve(triggerEl);
+          } else {
+            console.warn(`Typed.js: Target element "${task.target}" not found in DOM.`);
+          }
+        }
+      }
+    });
+  }, {
+    root: null,
+    threshold: 0.2
+  });
+
+	// observer
+	typingTasks.forEach(task => {
+		const triggerEl = document.querySelector(task.trigger);
+		if (triggerEl) {
+			observer.observe(triggerEl);
 		}
-		
-		if (isScrolledIntoView($('.section-launch-new-products'))) {
-			
-			$(".g-launch-new-products-typed-js").typed({
-				strings: ["Digital marketing for startups & products"],
-				typeSpeed: 20,  
-				startDelay: 200, 
-				backSpeed: 80,   
-				backDelay: 500, 
-				smartBackspace: true,  
-				
-			});			
-		}
-		
 	});
-	
-	
-	// background text animation
-	/*if($('.g-design').length > 0){
-		var controllerProcess = new ScrollMagic.Controller({
-			globalSceneOptions: {
-				duration: 561
-			}
-		});
-		new ScrollMagic.Scene({
-			triggerElement: ".g-design"
-		})
-		.setClassToggle(".g-design", "active")
-		.addTo(controllerProcess);
-		
-		
-		var controllerProcess2 = new ScrollMagic.Controller({
-			globalSceneOptions: {
-				duration: 561
-			}
-		});
-		new ScrollMagic.Scene({
-			triggerElement: ".section-wework"
-		})
-		.setClassToggle(".section-wework", "active")
-		.addTo(controllerProcess2);
-	}	*/	
 	
 	
 	// marquee

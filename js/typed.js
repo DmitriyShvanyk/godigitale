@@ -1,333 +1,210 @@
-// The MIT License (MIT)
+class Typed {
+  static defaults = {
+    strings: ["These are the default values...", "You know what you should do?", "Use your own!", "Have a great day!"],
+    typeSpeed: 0,
+    startDelay: 0,
+    backSpeed: 0,
+    backDelay: 500,
+    loop: false,
+    loopCount: false,
+    showCursor: true,
+    cursorChar: "|",
+    attr: null,
+    callback: () => {},
+    preStringTyped: () => {},
+    onStringTyped: () => {},
+    resetCallback: () => {}
+  };
 
-// Typed.js | Copyright (c) 2014 Matt Boldt | www.mattboldt.com
+  constructor(element, options = {}) {
+    this.el = typeof element === "string" ? document.querySelector(element) : element;
+    if (!this.el) throw new Error("Typed.js: Target element not found");
 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+    this.options = { ...Typed.defaults, ...options };
+    
+    this.isInput = this.el.tagName === "INPUT" || this.el.tagName === "TEXTAREA";
+    this.baseText = this.el.value || this.el.textContent || this.el.getAttribute("placeholder") || "";
+    this.attr = this.options.attr || (this.isInput ? "placeholder" : null);
 
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+    this.strings = this.options.strings;
+    this.typeSpeed = this.options.typeSpeed;
+    this.startDelay = this.options.startDelay;
+    this.backSpeed = this.options.backSpeed;
+    this.backDelay = this.options.backDelay;
+    this.loop = this.options.loop;
+    this.loopCount = this.options.loopCount;
 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+    this.strPos = 0;
+    this.arrayPos = 0;
+    this.stopNum = 0;
+    this.curLoop = 0;
+    
+    this.isStopped = false;
+    this.cursor = null;
+    this.timeoutId = null;
 
+    this.build();
+  }
 
+  build() {
+    if (this.options.showCursor && !this.isInput) {
+      this.cursor = document.createElement("span");
+      this.cursor.className = "typed-cursor";
+      this.cursor.textContent = this.options.cursorChar;
+      this.el.parentNode.insertBefore(this.cursor, this.el.nextSibling);
+    }
+    this.init();
+  }
 
+  init() {
+    this.setSmartTimeout(() => {
+      this.typewrite(this.strings[this.arrayPos], this.strPos);
+    }, this.startDelay);
+  }
 
-!function($){
+  typewrite(curString, curStrPos) {
+    if (this.isStopped) return;
 
-    "use strict";
+    // Расчет человекоподобной задержки (Human-like typing)
+    const humanSpeed = Math.round(Math.random() * 70) + this.typeSpeed;
 
-    var Typed = function(el, options){
+    this.setSmartTimeout(() => {
+      let pauseTime = 0;
+      let substr = curString.slice(curStrPos);
 
-        // chosen element to manipulate text
-        this.el = $(el);
+      // Обработка синтаксиса паузы внутри строки, например: "^1000"
+      if (substr.startsWith("^")) {
+        let skipChars = 1;
+        if (/^\^\d+/.test(substr)) {
+          const match = /^\^(\d+)/.exec(substr);
+          const digits = match[1];
+          skipChars += digits.length;
+          pauseTime = parseInt(digits, 10);
+        }
+        curString = curString.substring(0, curStrPos) + curString.substring(curStrPos + skipChars);
+      }
 
-        // options
-        this.options = $.extend({}, $.fn.typed.defaults, options);
+      this.setSmartTimeout(() => {
+        if (curStrPos === curString.length) {
+          this.options.onStringTyped(this.arrayPos);
 
-        // text content of element
-        this.baseText = this.el.text() || this.el.attr('placeholder') || '';
+          // Проверка на завершение всех строк и циклов
+          if (this.arrayPos === this.strings.length - 1) {
+            this.options.callback();
+            this.curLoop++;
+            if (!this.loop || (this.loopCount !== false && this.curLoop === this.loopCount)) {
+              return;
+            }
+          }
 
-        // typing speed
-        this.typeSpeed = this.options.typeSpeed;
+          this.setSmartTimeout(() => {
+            this.backspace(curString, curStrPos);
+          }, this.backDelay);
 
-        // add a delay before typing starts
-        this.startDelay = this.options.startDelay;
+        } else {
+          if (curStrPos === 0) {
+            this.options.preStringTyped(this.arrayPos);
+          }
 
-        // backspacing speed
-        this.backSpeed = this.options.backSpeed;
+          const nextText = this.baseText + curString.slice(0, curStrPos + 1);
+          this.write(nextText);
 
-        // amount of time to wait before backspacing
-        this.backDelay = this.options.backDelay;
+          curStrPos++;
+          this.typewrite(curString, curStrPos);
+        }
+      }, pauseTime);
 
-        // input strings of text
-        this.strings = this.options.strings;
+    }, humanSpeed);
+  }
 
-        // character number position of current string
-        this.strPos = 0;
+  backspace(curString, curStrPos) {
+    if (this.isStopped) return;
 
-        // current array position
-        this.arrayPos = 0;
+    const humanSpeed = Math.round(Math.random() * 70) + this.backSpeed;
 
-        // number to stop backspacing on.
-        // default 0, can change depending on how many chars
-        // you want to remove at the time
-        this.stopNum = 0;
+    this.setSmartTimeout(() => {
+      const nextText = this.baseText + curString.slice(0, curStrPos);
+      this.write(nextText);
 
-        // Looping logic
-        this.loop = this.options.loop;
-        this.loopCount = this.options.loopCount;
-        this.curLoop = 0;
+      if (curStrPos > this.stopNum) {
+        curStrPos--;
+        this.backspace(curString, curStrPos);
+      } else if (curStrPos <= this.stopNum) {
+        this.arrayPos++;
 
-        // for stopping
-        this.stop = false;
+        if (this.arrayPos === this.strings.length) {
+          this.arrayPos = 0;
+          this.init();
+        } else {
+          this.typewrite(this.strings[this.arrayPos], curStrPos);
+        }
+      }
+    }, humanSpeed);
+  }
 
-        // show cursor
-        this.showCursor = this.isInput ? false : this.options.showCursor;
+  write(text) {
+    if (this.attr) {
+      this.el.setAttribute(this.attr, text);
+    } else if (this.isInput) {
+      this.el.value = text;
+    } else {
+      this.el.textContent = text;
+    }
+  }
 
-        // custom cursor
-        this.cursorChar = this.options.cursorChar;
+  // Кастомный высокоточный таймер на базе requestAnimationFrame
+  setSmartTimeout(callback, delay) {
+    if (this.isStopped) return;
+    this.clearSmartTimeout();
 
-        // attribute to type
-        this.isInput = this.el.is('input');
-        this.attr = this.options.attr || (this.isInput ? 'placeholder' : null);
+    if (delay <= 0) {
+      callback();
+      return;
+    }
 
-        // All systems go!
-        this.build();
+    const start = performance.now();
+    const loop = (now) => {
+      if (now - start >= delay) {
+        callback();
+      } else {
+        this.timeoutId = requestAnimationFrame(loop);
+      }
     };
+    this.timeoutId = requestAnimationFrame(loop);
+  }
 
-        Typed.prototype =  {
+  clearSmartTimeout() {
+    if (this.timeoutId) {
+      cancelAnimationFrame(this.timeoutId);
+      this.timeoutId = null;
+    }
+  }
 
-            constructor: Typed
+  stop() {
+    this.isStopped = true;
+    this.clearSmartTimeout();
+  }
 
-            , init: function(){
-                // begin the loop w/ first current string (global self.string)
-                // current string will be passed as an argument each time after this
-                var self = this;
-                self.timeout = setTimeout(function() {
-                    // Start typing
-                    self.typewrite(self.strings[self.arrayPos], self.strPos);
-                }, self.startDelay);
-            }
+  start() {
+    if (!this.isStopped) return;
+    this.isStopped = false;
+    this.typewrite(this.strings[this.arrayPos], this.strPos);
+  }
 
-            , build: function(){
-                // Insert cursor
-                if (this.showCursor === true){
-                  this.cursor = $("<span class=\"typed-cursor\">" + this.cursorChar + "</span>");
-                  this.el.after(this.cursor);
-                }
-                this.init();
-            }
-
-            // pass current string state to each function, types 1 char per call
-            , typewrite: function(curString, curStrPos){
-                // exit when stopped
-                if(this.stop === true)
-                   return;
-
-                // varying values for setTimeout during typing
-                // can't be global since number changes each time loop is executed
-                var humanize = Math.round(Math.random() * (100 - 30)) + this.typeSpeed;
-                var self = this;
-
-                // ------------- optional ------------- //
-                // backpaces a certain string faster
-                // ------------------------------------ //
-                // if (self.arrayPos == 1){
-                //  self.backDelay = 50;
-                // }
-                // else{ self.backDelay = 500; }
-
-                // contain typing function in a timeout humanize'd delay
-                self.timeout = setTimeout(function() {
-                    // check for an escape character before a pause value
-                    // format: \^\d+ .. eg: ^1000 .. should be able to print the ^ too using ^^
-                    // single ^ are removed from string
-                    var charPause = 0;
-                    var substr = curString.substr(curStrPos);
-                    if (substr.charAt(0) === '^') {
-                        var skip = 1;  // skip atleast 1
-                        if(/^\^\d+/.test(substr)) {
-                           substr = /\d+/.exec(substr)[0];
-                           skip += substr.length;
-                           charPause = parseInt(substr);
-                        }
-
-                        // strip out the escape character and pause value so they're not printed
-                        curString = curString.substring(0,curStrPos)+curString.substring(curStrPos+skip);
-                    }
-
-                    // timeout for any pause after a character
-                    self.timeout = setTimeout(function() {
-                        if(curStrPos === curString.length) {
-                           // fires callback function
-                           self.options.onStringTyped(self.arrayPos);
-
-                            // is this the final string
-                           if(self.arrayPos === self.strings.length-1) {
-                              // animation that occurs on the last typed string
-                              self.options.callback();
-
-                              self.curLoop++;
-
-                              // quit if we wont loop back
-                              if(self.loop === false || self.curLoop === self.loopCount)
-                                 return;
-                           }
-
-                           self.timeout = setTimeout(function(){
-                              self.backspace(curString, curStrPos);
-                           }, self.backDelay);
-                        } else {
-
-                           /* call before functions if applicable */
-                           if(curStrPos === 0)
-                              self.options.preStringTyped(self.arrayPos);
-
-                           // start typing each new char into existing string
-                           // curString: arg, self.baseText: original text inside element
-                           var nextString = self.baseText + curString.substr(0, curStrPos+1);
-                           if (self.attr) {
-                            self.el.attr(self.attr, nextString);
-                           } else {
-                            self.el.text(nextString);
-                           }
-
-                           // add characters one by one
-                           curStrPos++;
-                           // loop the function
-                           self.typewrite(curString, curStrPos);
-                        }
-                    // end of character pause
-                    }, charPause);
-
-                // humanized value for typing
-                }, humanize);
-
-            }
-
-            , backspace: function(curString, curStrPos){
-                // exit when stopped
-                if (this.stop === true) {
-                   return;
-                }
-
-                // varying values for setTimeout during typing
-                // can't be global since number changes each time loop is executed
-                var humanize = Math.round(Math.random() * (100 - 30)) + this.backSpeed;
-                var self = this;
-
-                self.timeout = setTimeout(function() {
-
-                    // ----- this part is optional ----- //
-                    // check string array position
-                    // on the first string, only delete one word
-                    // the stopNum actually represents the amount of chars to
-                    // keep in the current string. In my case it's 14.
-                    // if (self.arrayPos == 1){
-                    //  self.stopNum = 14;
-                    // }
-                    //every other time, delete the whole typed string
-                    // else{
-                    //  self.stopNum = 0;
-                    // }
-
-                    // ----- continue important stuff ----- //
-                    // replace text with base text + typed characters
-                    var nextString = self.baseText + curString.substr(0, curStrPos);
-                    if (self.attr) {
-                     self.el.attr(self.attr, nextString);
-                    } else {
-                     self.el.text(nextString);
-                    }
-
-                    // if the number (id of character in current string) is
-                    // less than the stop number, keep going
-                    if (curStrPos > self.stopNum){
-                        // subtract characters one by one
-                        curStrPos--;
-                        // loop the function
-                        self.backspace(curString, curStrPos);
-                    }
-                    // if the stop number has been reached, increase
-                    // array position to next string
-                    else if (curStrPos <= self.stopNum) {
-                        self.arrayPos++;
-
-                        if(self.arrayPos === self.strings.length) {
-                           self.arrayPos = 0;
-                           self.init();
-                        } else
-                            self.typewrite(self.strings[self.arrayPos], curStrPos);
-                    }
-
-                // humanized value for typing
-                }, humanize);
-
-            }
-
-            // Start & Stop currently not working
-
-            // , stop: function() {
-            //     var self = this;
-
-            //     self.stop = true;
-            //     clearInterval(self.timeout);
-            // }
-
-            // , start: function() {
-            //     var self = this;
-            //     if(self.stop === false)
-            //        return;
-
-            //     this.stop = false;
-            //     this.init();
-            // }
-
-            // Reset and rebuild the element
-            , reset: function(){
-                var self = this;
-                clearInterval(self.timeout);
-                var id = this.el.attr('id');
-                this.el.after('<span id="' + id + '"/>')
-                this.el.remove();
-                this.cursor.remove();
-                // Send the callback
-                self.options.resetCallback();
-            }
-
-        };
-
-    $.fn.typed = function (option) {
-        return this.each(function () {
-          var $this = $(this)
-            , data = $this.data('typed')
-            , options = typeof option == 'object' && option;
-          if (!data) $this.data('typed', (data = new Typed(this, options)));
-          if (typeof option == 'string') data[option]();
-        });
-    };
-
-    $.fn.typed.defaults = {
-        strings: ["These are the default values...", "You know what you should do?", "Use your own!", "Have a great day!"],
-        // typing speed
-        typeSpeed: 0,
-        // time before typing starts
-        startDelay: 0,
-        // backspacing speed
-        backSpeed: 0,
-        // time before backspacing
-        backDelay: 500,
-        // loop
-        loop: false,
-        // false = infinite
-        loopCount: false,
-        // show cursor
-        showCursor: true,
-        // character for cursor
-        cursorChar: "|",
-        // attribute to type (null == text)
-        attr: null,
-        // call when done callback function
-        callback: function() {},
-        // starting callback function before each string
-        preStringTyped: function() {},
-        //callback for every typed string
-        onStringTyped: function() {},
-        // callback for reset
-        resetCallback: function() {}
-    };
-
-
-}(window.jQuery);
-
+  reset() {
+    this.stop();
+    this.clearSmartTimeout();
+    
+    this.write(this.baseText);
+    if (this.cursor) {
+      this.cursor.remove();
+      this.cursor = null;
+    }
+    
+    this.strPos = 0;
+    this.arrayPos = 0;
+    this.curLoop = 0;
+    
+    this.options.resetCallback();
+  }
+}
