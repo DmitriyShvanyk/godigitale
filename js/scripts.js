@@ -17,21 +17,42 @@
 	loadFonts('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
 	
 	
-	
-	// parallax
-	if($('.parallax').length > 0){
-		$('.parallax').paroller();
-	}	
-	
+	// rellax
+	new Rellax('.rellax');
+
 	
 	// tabs	
-	if($('.g-tabs').length > 0){
-		$('.g-tabs-list').on('click', 'li:not(.current)', function() {
-			$(this).addClass('current').siblings().removeClass('current')
-			.parents('.g-tabs').find('.g-tabs-box').eq($(this).index()).fadeIn(150).siblings('.g-tabs-box').hide();			
-		});	
-		
-	}
+	document.querySelectorAll('.tabs__list').forEach((list) => {
+		list.addEventListener('click', (e) => {
+			const tab = e.target.closest('li:not(.current)');
+			if (!tab || !list.contains(tab)) return;
+
+			const tabItems = [...tab.parentElement.children];
+			tabItems.forEach((li) => li.classList.toggle('current', li === tab));
+
+			const boxes = tab.closest('.tabs')?.querySelectorAll('.tabs__box') ?? [];
+			const box = boxes[tabItems.indexOf(tab)];
+			if (!box) return;
+
+			[...box.parentElement.children].forEach((el) => {
+				if (el !== box && el.matches('.tabs__box')) el.style.display = 'none';
+			});
+
+			box.style.display = 'block';
+			box.animate([{ opacity: 0 }, { opacity: 1 }], 150);
+		});
+	});
+
+
+	// banners
+	/*const design = document.querySelector('.design');
+  	if (design) new HorizontalScrollPin(design, { strip: '.design__banners' });*/
+
+	new HorizontalScrollPin(document.querySelector('.design'), {
+		strip: '.design__banners',
+		ratio: 3,     
+		smooth: 0.1
+	});
 	
 	
 	// typed text when scroll page
@@ -75,7 +96,7 @@
 	
 	
 	// background text animation
-	if($('.g-design').length > 0){
+	/*if($('.g-design').length > 0){
 		var controllerProcess = new ScrollMagic.Controller({
 			globalSceneOptions: {
 				duration: 561
@@ -98,7 +119,7 @@
 		})
 		.setClassToggle(".section-wework", "active")
 		.addTo(controllerProcess2);
-	}		
+	}	*/	
 	
 	
 	// marquee
