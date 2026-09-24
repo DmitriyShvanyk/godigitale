@@ -13,7 +13,7 @@
 		
 		head.appendChild(link);
 	}
-	loadFonts('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i&amp;subset=cyrillic,cyrillic-ext');
+	loadFonts('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 	loadFonts('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
 	
 	
@@ -101,13 +101,11 @@
 	}		
 	
 	
-	// background text animation
-	if($('.marquee').length > 0){
-		$('.marquee').marquee({
-			duration: 10000,
-			startVisible: true,
-			duplicated: true
-		});
-	}	
+	// marquee
+	Marquee.init('.g-marquee', {
+      duration: 10000,
+      startVisible: true,
+      duplicated: true
+    });
 	
 })();
