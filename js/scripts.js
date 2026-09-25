@@ -59,8 +59,8 @@
 			},
 		},
 		{
-			trigger: ".section-launch-new-products",
-			target: ".g-launch-new-products-typed-js",
+			trigger: ".new-products",
+			target: ".new-products__typed-js",
 			options: {
 				strings: ["Digital marketing for startups & products"],
 				typeSpeed: 20,
@@ -107,7 +107,7 @@
 	});
 
 	// marquee
-	Marquee.init(".g-marquee", {
+	Marquee.init(".marquee", {
 		duration: 10000,
 		startVisible: true,
 		duplicated: true,

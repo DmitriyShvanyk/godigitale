@@ -5,8 +5,8 @@
  * (beforeStarting, finished, paused, resumed) — dispatched as CustomEvents.
  *
  * Usage (classic <script>, exposes window.Marquee):
- *   Marquee.init('.g-marquee', { duplicated: true, duration: 20000 });
- *   Marquee.init('.g-marquee', 'pause');            // command by string, like $(el).marquee('pause')
+ *   Marquee.init('.marquee', { duplicated: true, duration: 20000 });
+ *   Marquee.init('.marquee', 'pause');            // command by string, like $(el).marquee('pause')
  *   const m = Marquee.get(el); m.toggle();          // or via instance
  *   el.addEventListener('finished', () => {});      // like $(el).on('finished')
  */

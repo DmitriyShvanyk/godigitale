@@ -131,7 +131,7 @@ Then open `http://localhost:<port>` in your browser.
 |-------------------------------|---------|
 | Copy / headlines               | Directly in `index.html` (no templating layer) |
 | Colors, spacing, typography    | `css/style.css` |
-| Marquee keywords                | `.g-marquee__list` items in `index.html` |
+| Marquee keywords                | `.marquee__list` items in `index.html` |
 | Tabs content (Traffic/Chat-bot/Funnels) | `.tabs__box-*` blocks + `js/marquee.js`/`js/typed.js` init |
 | Timeline steps                 | `.g-timeline-item` blocks |
 | Case studies                   | Duplicate a `.section-speak-support` block and update copy/services list |
