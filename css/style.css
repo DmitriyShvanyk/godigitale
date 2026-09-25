@@ -1021,55 +1021,58 @@ img {
 
 
 /*-------------------------------------------------*/
-/* =  section-reports.begin
+/* =  reports.begin
 /*-------------------------------------------------*/
 
-.section-reports{
+.reports{
 	background-color: #1A1A1A;
 	color: #fff;
-	overflow-x: hidden;
 }
-.section-reports .container{
+
+.reports__container{
 	padding-top: 62px;
     padding-bottom: 32px;
 }
-.g-reports{
+
+.reports__content{
 	padding-right: 415px;
 	position: relative;
 }
-.g-reports .g-text{
+
+.reports__text{
 	color: #fff;
 }
-.g-reports .g-text h3{
+
+.reports__title {
 	margin: 0 0 12px;
 	font-size: 22px;
 }
 
-.g-men-ok{
+.reports__men{
 	position: absolute; bottom: -57px; right: 0;
 }
-.g-men-ok > img{
+
+.reports__men img{
 	display: block;
 }
 
-@media (max-width: 767px) {	
-	
-	.section-reports .container {
+@media (max-width: 767px) {		
+	.reports__container {
 		padding-top: 72px;
 		padding-bottom: 38px;
 	}
 	
-	.g-reports{
+	.reports__content{
 		padding-right: 0;
 	}
-	.g-reports .g-text h3 {
+
+	.reports__title {
 		margin-bottom: 5px;
 	}	
-
 }
 
 /*-------------------------------------------------*/
-/* =  section-reports.end
+/* =  reports.end
 /*-------------------------------------------------*/
 
 
