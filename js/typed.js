@@ -65,14 +65,13 @@ class Typed {
   typewrite(curString, curStrPos) {
     if (this.isStopped) return;
 
-    // Расчет человекоподобной задержки (Human-like typing)
+    // Human-like typing
     const humanSpeed = Math.round(Math.random() * 70) + this.typeSpeed;
 
     this.setSmartTimeout(() => {
       let pauseTime = 0;
       let substr = curString.slice(curStrPos);
 
-      // Обработка синтаксиса паузы внутри строки, например: "^1000"
       if (substr.startsWith("^")) {
         let skipChars = 1;
         if (/^\^\d+/.test(substr)) {
@@ -88,7 +87,6 @@ class Typed {
         if (curStrPos === curString.length) {
           this.options.onStringTyped(this.arrayPos);
 
-          // Проверка на завершение всех строк и циклов
           if (this.arrayPos === this.strings.length - 1) {
             this.options.callback();
             this.curLoop++;
@@ -152,7 +150,6 @@ class Typed {
     }
   }
 
-  // Кастомный высокоточный таймер на базе requestAnimationFrame
   setSmartTimeout(callback, delay) {
     if (this.isStopped) return;
     this.clearSmartTimeout();
