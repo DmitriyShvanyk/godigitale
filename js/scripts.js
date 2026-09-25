@@ -48,17 +48,6 @@
 	// typed text
 	const typingTasks = [
 		{
-			trigger: ".g-speak-support",
-			target: ".g-women-robot-text-typed-js",
-			options: {
-				strings: ["I think you understand why it’s so important."],
-				typeSpeed: 20,
-				startDelay: 200,
-				backSpeed: 80,
-				backDelay: 500,
-			},
-		},
-		{
 			trigger: ".new-products",
 			target: ".new-products__typed-js",
 			options: {
