@@ -30,15 +30,18 @@
 	<meta name="theme-color" content="#0b0b0b">
 
 	<!-- favicons -->
-	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-	<link rel="shortcut icon" href="/favicon.ico" />
-	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-	<link rel="manifest" href="/site.webmanifest" />
+	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+	<link rel="shortcut icon" href="/favicon.ico">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="manifest" href="/site.webmanifest">
 
 	<!-- fonts: preconnect + preload critical file -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+	<!-- bootstrap css -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
 	<!-- critical css -->
 	<link rel="preload" as="style" href="css/style.css?v=1.0.0">
@@ -48,13 +51,13 @@
 <body>
 	
 	<!--header.begin-->
-	<header class="header">
+	<header class="header text-white overflow-x-hidden">
 		<div class="container header__container">
 			
 			<!-- navbar.begin-->
-			<nav class="navbar">
-				<div class="navbar__inner">					
-					<a href="/" class="navbar__logo">
+			<nav class="navbar d-block">
+				<div class="navbar__inner w-100 position-relative d-flex align-items-center mx-auto">					
+					<a href="/" class="navbar__logo d-block d-md-inline-block" title="Godigitale | Digital Marketing Agency for Startups & Products">
 						<img src="img/logo-godigitale.svg" alt="Logo Godigitale">
 					</a>			
 				</div>
@@ -62,13 +65,13 @@
 			<!-- navbar.end-->
 			
 			<div class="header__content">			
-				<h1 class="header__title">
+				<h1 class="header__title fw-normal mb-0">
 					We are helping with the first launch, digital marketing strategy, and setup process for scaling your marketing
 				</h1>						
 			</div>			
 		</div>		
-		<div class="marquee">				
-			<ul class="marquee__list">
+		<div class="marquee w-100">				
+			<ul class="marquee__list p-0 m-0 d-flex flex-row flex-nowrap justify-content-between text-nowrap list-unstyled">
 				<li class="marquee__item">growth marketing</li>
 				<li class="marquee__item">product analytics</li>
 				<li class="marquee__item">paid traffic</li>
@@ -91,7 +94,7 @@
 	<!--header.end-->
 	
 	<!--partner.begin-->
-	<section class="partner">
+	<section class="partner overflow-x-hidden">
 		<div class="container partner__container">			
 			<div class="partner__content">
 				<h2 class="title partner__title">Just Relax with Music</h2>
@@ -101,7 +104,7 @@
 				</div>
 
 				<a class="partner__link" href="https://open.spotify.com/playlist/0kOPbZRMVstxWtWuHJjEic?si=0xW9odo2Qga39-yar2EAxQ" target="_blank"> 
-					<img src="img/spotify-podcast-badge-blk-grn-330x80.svg" alt="">
+					<img class="d-block" src="img/spotify-podcast-badge-blk-grn-330x80.svg" alt="Spotify Playlist">
 				</a>
 			</div>
 		</div>
@@ -109,9 +112,8 @@
 	<!--partner.end-->
 	
 	<!--traffic.begin-->
-	<section class="traffic">
-		<div class="container traffic__container">
-			
+	<section class="traffic bg-white overflow-x-hidden">
+		<div class="container traffic__container">			
 			<div class="traffic__inner">
 				<h2 class="title traffic__title">
 					<img class="title-i" src="img/i-fare.png" srcset="img/i-fare@2x.png 2x" alt="">
@@ -120,11 +122,43 @@
 				
 				<div class="traffic__content">
 					<div class="row">
-						<div class="col-md-14 col-sm-14">						
+						<div class="col-12 col-lg-10">						
 							<div class="text traffic__text">
 								<p>Our working experience more than 7 years. Includes clients from the USA, EU and CIS regions. Have worked with a range of businesses: Certification, Accounting, Professional Services, E-commerce, Health, Online Education, Apps and Online Media.</p>
 							</div>						
 						</div>			
+					</div>
+				</div>
+
+				<ul class="nav nav-tabs nav-justified" id="myTabTraffic" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button class="nav-link active" id="trafic-tab" data-bs-toggle="tab" data-bs-target="#trafic-tab-pane" type="button" role="tab" aria-controls="trafic-tab-pane" aria-selected="true">
+							<i class="fas fa-rocket"></i>
+							Trafic
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+							<i class="far fa-comment-alt"></i>
+							Profile
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="funnels-tab" data-bs-toggle="tab" data-bs-target="#funnels-tab-pane" type="button" role="tab" aria-controls="funnels-tab-pane" aria-selected="false">
+							<i class="fas fa-filter"></i>
+							Funnels
+						</button>
+					</li>
+				</ul>
+				<div class="tab-content" id="myTabTrafficContent">
+					<div class="tab-pane fade show active" id="trafic-tab-pane" role="tabpanel" aria-labelledby="trafic-tab" tabindex="0">
+						<p>Launch of ads campaigns in any sources from creating an acquisition strategy and creatives to launching. Setting up analytics systems and further conducting advertising campaigns.</p>
+					</div>
+					<div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+						<p>Messages in chatbots (we can also create these chatbots on different platforms). We know how to launch this type of ad.</p>
+					</div>
+					<div class="tab-pane fade" id="funnels-tab-pane" role="tabpanel" aria-labelledby="funnels-tab" tabindex="0">
+						<p>Full development of the sales funnels from the first entrance to the funnel and till the sale of the main product..</p>
 					</div>
 				</div>
 				
@@ -165,108 +199,108 @@
 					</div>
 					<div class="tabs__box tabs__box-3">
 						<div class="tabs__strings-3">
-							<p>Full development of the sales funnels from the first entrance to the funnel and till the sale of the main product..</p>
+							<p>Full development of the sales funnels from the first entrance to the funnel and till the sale of the main product..</p>	
 						</div>
 						<div class="tabs__typed-3"></div>
 					</div>
 				</div>
 				<!--tabs.end-->
 				
-			</div>			
-			
-		</div>
-	</section>
-	<!--traffic.end-->
-	
-	<!--process.begin-->
-	<section class="process">
-		<div class="container process__container">
-			
-			<div class="process__content">			
-				<h2 class="title process__title">
-					Marketing automation
-				</h2>
-				<div class="text process__text">
-					<p>
-						Setting up all marketings process, working with Marketo and HubSpot. Working with API, Zapier.
-					</p>
-				</div>
 			</div>
-			
-			<div class="process__norris">
-				<img class="process__norris-image" srcset="img/process/norris@2x.png 2x" src="img/process/norris.png" alt="">
-				<img class="process__norris-i1 rellax" src="img/process/i1.png" srcset="img/process/i1@2x.png 2x" data-rellax-speed="1" alt="">
-				<img class="process__norris-i2 rellax" src="img/process/i2.png" srcset="img/process/i2@2x.png 2x" data-rellax-speed="1" alt="">
+		</div>
+
+		<!--process.begin-->
+		<div class="process bg-white">
+			<div class="container process__container position-relative">
 				
-				<div class="process__monkey rellax" data-rellax-speed=".5">
-					<img src="img/process/i-mank.png" srcset="img/process/i-mank@2x.png 2x" alt="">
+				<div class="process__content position-relative">			
+					<h2 class="title process__title">
+						Marketing automation
+					</h2>
+					<div class="text process__text">
+						<p>
+							Setting up all marketings process, working with Marketo and HubSpot. Working with API, Zapier.
+						</p>
+					</div>
 				</div>
-				<div class="process__messanger rellax" data-rellax-speed=".5">
-					<img src="img/process/i-marketo.png" srcset="img/process/i-marketo.png 2x" alt="" style="max-width: 40px; height: auto;">
+				
+				<div class="process__norris position-absolute">
+					<img class="process__norris-image d-block position-relative z-2" srcset="img/process/norris@2x.png 2x" src="img/process/norris.png" alt="">
+					<img class="process__norris-i1 position-absolute rellax" src="img/process/i1.png" srcset="img/process/i1@2x.png 2x" data-rellax-speed="1" alt="">
+					<img class="process__norris-i2 position-absolute rellax" src="img/process/i2.png" srcset="img/process/i2@2x.png 2x" data-rellax-speed="1" alt="">
+					
+					<div class="process__monkey bg-white text-center rounded-circle position-absolute z-3 rellax" data-rellax-speed=".5">
+						<img src="img/process/i-mank.png" srcset="img/process/i-mank@2x.png 2x" alt="">
+					</div>
+					<div class="process__messanger bg-white text-center rounded-circle position-absolute z-3 rellax" data-rellax-speed=".5">
+						<img src="img/process/i-marketo.png" srcset="img/process/i-marketo.png 2x" alt="" style="max-width: 40px; height: auto;">
+					</div>
 				</div>
+				
 			</div>
-			
 		</div>
+		<!--process.end-->
+
 	</section>
-	<!--process.end-->
+	<!--traffic.end-->	
 	
 	<!--design.begin-->
-	<section class="design">
-		<div class="design__banners">
-			<a href="#" class="design__banner">
-				<img src="img/banners/banner-1.png" alt="">
+	<section class="design overflow-hidden">
+		<div class="design__banners position-relative text-nowrap">
+			<a href="#" class="design__banner d-inline-block align-top">
+				<img class="d-block w-100 rounded" src="img/banners/banner-1.png" alt="">
 			</a>
-			<a href="#" class="design__banner">
-				<img src="img/banners/banner-2.jpg" alt="">
+			<a href="#" class="design__banner d-inline-block align-top">
+				<img class="d-block w-100 rounded" src="img/banners/banner-2.jpg" alt="">
 			</a>
-			<a href="#" class="design__banner">
-				<img src="img/banners/banner-4.png" alt="">
+			<a href="#" class="design__banner d-inline-block align-top">
+				<img class="d-block w-100 rounded" src="img/banners/banner-4.png" alt="">
 			</a>
-			<a href="#" class="design__banner">
-				<img src="img/banners/banner-6.png" alt="">
+			<a href="#" class="design__banner d-inline-block align-top">
+				<img class="d-block w-100 rounded" src="img/banners/banner-6.png" alt="">
 			</a>
-			<a href="#" class="design__banner">
-				<img src="img/banners/banner-8.jpg" alt="">
+			<a href="#" class="design__banner d-inline-block align-top">
+				<img class="d-block w-100 rounded" src="img/banners/banner-8.jpg" alt="">
 			</a>
-			<a href="#" class="design__banner">
-				<img src="img/banners/banner-9.png" alt="">
+			<a href="#" class="design__banner d-inline-block align-top">
+				<img class="d-block w-100 rounded" src="img/banners/banner-9.png" alt="">
 			</a>
-			<a href="#" class="design__banner">
-				<img src="img/banners/banner-3.jpg" alt="">
+			<a href="#" class="design__banner d-inline-block align-top">
+				<img class="d-block w-100 rounded" src="img/banners/banner-3.jpg" alt="">
 			</a>
-			<a href="#" class="design__banner">
-				<img src="img/banners/banner-5.png" alt="">
+			<a href="#" class="design__banner d-inline-block align-top">
+				<img class="d-block w-100 rounded" src="img/banners/banner-5.png" alt="">
 			</a>
-			<a href="#" class="design__banner">
-				<img src="img/banners/banner-10.png" alt="">
+			<a href="#" class="design__banner d-inline-block align-top">
+				<img class="d-block w-100 rounded" src="img/banners/banner-10.png" alt="">
 			</a>
-			<a href="#" class="design__banner">
-				<img src="img/banners/banner-7.png" alt="">
+			<a href="#" class="design__banner d-inline-block align-top">
+				<img class="d-block w-100 rounded" src="img/banners/banner-7.png" alt="">
 			</a>
-			<a href="#" class="design__banner">
-				<img src="img/banners/banner-4.png" alt="">
+			<a href="#" class="design__banner d-inline-block align-top">
+				<img class="d-block w-100 rounded" src="img/banners/banner-4.png" alt="">
 			</a>
-			<a href="#" class="design__banner">
-				<img src="img/banners/banner-1.png" alt="">
+			<a href="#" class="design__banner d-inline-block align-top">
+				<img class="d-block w-100 rounded" src="img/banners/banner-1.png" alt="">
 			</a>
-			<a href="#" class="design__banner">
-				<img src="img/banners/banner-3.jpg" alt="">
+			<a href="#" class="design__banner d-inline-block align-top">
+				<img class="d-block w-100 rounded" src="img/banners/banner-3.jpg" alt="">
 			</a>
 		</div>
 		<div class="container design__container">			
 			<div class="design__inner">
-				<h2 class="title design__title">
+				<h2 class="title design__title mt-4">
 					Growth marketing and analytics
 				</h2>				
 				<div class="design__content">
 					<div class="row">
-						<div class="col-md-14 col-sm-14">						
+						<div class="col-12">						
 							<div class="text design__text">
 								<p>Working with a product, not only with one part of a funnel. <span class="text-selected">Looking at your entire customer lifecycle and using those insights to create compounding returns that drive more engaged customers.</span></p>
 								<p>Analyzing acquisition source funnel/users retention. Analyzing how users engage with a product or service and fixing key metrics.</p>
 							</div>						
 						</div>
-					</div>
+					</div>					
 				</div>
 			</div>			
 		</div>
@@ -274,64 +308,64 @@
 	<!--design.end-->
 	
 	<!--timeline.begin-->
-	<section class="timeline">
+	<section class="timeline text-white overflow-x-hidden">
 		<div class="container timeline__container">
 			
 			<!--timeline box.begin-->
-			<div class="timeline__box">
-				<div class="timeline__inner">
-					<div class="timeline__item">
-						<img class="timeline__i-start" src="img/timeline/i-start.png" srcset="img/timeline/i-start@2x.png 2x" alt="">
-						<div class="timeline__num">1</div>
-						<div class="timeline__text-bottom timeline__text-bottom-1">
+			<div class="timeline__box position-relative overflow-x-auto overflow-y-hidden">
+				<div class="timeline__inner d-flex flex-row flex-nowrap justify-content-between text-nowrap position-relative">
+					<div class="timeline__item position-relative">
+						<img class="timeline__i-start position-absolute" src="img/timeline/i-start.png" srcset="img/timeline/i-start@2x.png 2x" alt="">
+						<div class="timeline__num position-absolute">1</div>
+						<div class="timeline__text-bottom timeline__text-bottom-1 position-absolute">
 							Acquaintance
 						</div>
 					</div>
-					<div class="timeline__item">
-						<div class="timeline__num">2</div>
-						<div class="timeline__num-line"></div>
-						<img class="timeline__num-line-i" src="img/timeline/i-space-invaders.png" srcset="img/timeline/i-space-invaders@2x.png 2x" alt="">
-						<div class="timeline__text-bottom">
+					<div class="timeline__item position-relative">
+						<div class="timeline__num position-absolute">2</div>
+						<div class="timeline__num-line position-absolute"></div>
+						<img class="timeline__num-line-i position-absolute" src="img/timeline/i-space-invaders.png" srcset="img/timeline/i-space-invaders@2x.png 2x" alt="">
+						<div class="timeline__text-bottom position-absolute">
 							Research & Development
 						</div>
 					</div>
-					<div class="timeline__item">
-						<div class="timeline__num">3</div>
+					<div class="timeline__item position-relative">
+						<div class="timeline__num position-absolute">3</div>
 					</div>
-					<div class="timeline__item">
-						<div class="timeline__num">4</div>
+					<div class="timeline__item position-relative">
+						<div class="timeline__num position-absolute">4</div>
 					</div>
-					<div class="timeline__item">
-						<div class="timeline__num">5</div>
-						<div class="timeline__num-line"></div>
-						<img class="timeline__num-line-i" src="img/timeline/i-settings.png" srcset="img/timeline/i-settings@2x.png 2x" alt="">
-						<div class="timeline__text-bottom">
+					<div class="timeline__item position-relative">
+						<div class="timeline__num position-absolute">5</div>
+						<div class="timeline__num-line position-absolute"></div>
+						<img class="timeline__num-line-i position-absolute" src="img/timeline/i-settings.png" srcset="img/timeline/i-settings@2x.png 2x" alt="">
+						<div class="timeline__text-bottom position-absolute">
 							Approve
 						</div>
 					</div>
-					<div class="timeline__item">
-						<div class="timeline__num">6</div>
+					<div class="timeline__item position-relative">
+						<div class="timeline__num position-absolute">6</div>
 					</div>
-					<div class="timeline__item">
-						<div class="timeline__num">7</div>
-						<div class="timeline__num-line"></div>
-						<img class="timeline__num-line-i" src="img/timeline/i-rocket.png" srcset="img/timeline/i-rocket@2x.png 2x" alt="">
-						<div class="timeline__text-bottom">
+					<div class="timeline__item position-relative">
+						<div class="timeline__num position-absolute">7</div>
+						<div class="timeline__num-line position-absolute"></div>
+						<img class="timeline__num-line-i position-absolute" src="img/timeline/i-rocket.png" srcset="img/timeline/i-rocket@2x.png 2x" alt="">
+						<div class="timeline__text-bottom position-absolute">
 							Implement
 						</div>
 					</div>
-					<div class="timeline__item">
-						<div class="timeline__num">8</div>
-						<div class="timeline__num-line"></div>
-						<img class="timeline__num-line-i" src="img/timeline/i-warning.png" srcset="img/timeline/i-warning@2x.png 2x" alt="">
-						<div class="timeline__text-bottom">
+					<div class="timeline__item position-relative">
+						<div class="timeline__num position-absolute">8</div>
+						<div class="timeline__num-line position-absolute"></div>
+						<img class="timeline__num-line-i position-absolute" src="img/timeline/i-warning.png" srcset="img/timeline/i-warning@2x.png 2x" alt="">
+						<div class="timeline__text-bottom position-absolute">
 							Optimization
 						</div>
 					</div>
-					<div class="timeline__item">
-						<div class="timeline__num">9</div>
-						<img class="timeline__i-finish" src="img/timeline/i-finish.png" srcset="img/timeline/i-finish@2x.png 2x" alt="">
-						<div class="timeline__text-bottom">
+					<div class="timeline__item position-relative">
+						<div class="timeline__num position-absolute">9</div>
+						<img class="timeline__i-finish position-absolute" src="img/timeline/i-finish.png" srcset="img/timeline/i-finish@2x.png 2x" alt="">
+						<div class="timeline__text-bottom position-absolute">
 							Check Revenue 😎
 						</div>
 					</div>
@@ -346,40 +380,40 @@
 				</h2>
 				<div class="deadlines__content">
 					<div class="row">
-						<div class="col-md-15 col-sm-14">						
-							<div class="text deadlines__text">
-								<p>We break your project into small steps and then work in a consistent manner.</p>
-								<p>After receiving feedback and making necessary corrections, we finalize campaign materials, get approvals and launch the campaign. We reserve about 20% of the total project time for force majeures.</p>
+						<div class="col-12 col-md-7">						
+							<div class="text deadlines__text text-white">
+							<p>We break your project into small steps and then work in a consistent manner.</p>
+							<p>After receiving feedback and making necessary corrections, we finalize campaign materials, get approvals and launch the campaign. We reserve about 20% of the total project time for force majeures.</p>
 							</div>						
-						</div>
-						<div class="col-md-7 col-md-offset-1 col-sm-9 col-sm-offset-1">
-							<div class="text text--18 deadlines__text deadlines__text-18">
-								<h3>Always in touch</h3>
-								<p>It’s true. We synchronize with your schedule, quickly answer your messages and address emergencies. It means that if today Friday and something needs to be corrected by Monday — it will be done no later than Sunday.</p>
+						</div>						
+						<div class="col-12 col-sm-4 offset-md-1">
+							<div class="text text--18 deadlines__text deadlines__text-18 text-white">
+							<h3 class="mt-4 mt-md-0 mb-3">Always in touch</h3>
+							<p>It’s true. We synchronize with your schedule, quickly answer your messages and address emergencies. It means that if today Friday and something needs to be corrected by Monday — it will be done no later than Sunday.</p>
 							</div>
 						</div>					
 					</div>
 				</div>
 			</div>
 			
-			<div class="men-ok-mobile">
-				<img class="hidden-lg hidden-md hidden-sm visible-xs center-block" src="img/men-ok.png" srcset="img/men-ok@2x.png 2x" alt="">
+			<div class="mt-3">
+				<img class="d-block d-sm-none center-block" src="img/men-ok.png" srcset="img/men-ok@2x.png 2x" alt="">
 			</div>		
 		</div>
 	</section>
 	<!--timeline.end-->
 	
 	<!--reports.begin-->
-	<section class="reports">
+	<section class="reports text-white">
 		<div class="container reports__container">			
-			<div class="reports__content">
-				<div class="text text--18 reports__text">
+			<div class="reports__content position-relative">
+				<div class="text text--18 reports__text text-white">
 					<h3 class="reports__title">Make sure reports have been sent</h3>
 					<p>We describe in detail spendings in the advertising budget and corresponding results.</p>
 				</div>		
 				
-				<div class="reports__men">
-					<img class="hidden-xs" src="img/men-ok.png" srcset="img/men-ok@2x.png 2x" alt="">
+				<div class="reports__men position-absolute">
+					<img class="d-none d-sm-block" src="img/men-ok.png" srcset="img/men-ok@2x.png 2x" alt="">
 				</div>
 			</div>			
 		</div>
@@ -387,13 +421,13 @@
 	<!--reports.end-->
 	
 	<!--consulting.begin-->
-	<section class="consulting">
+	<section class="consulting bg-white overflow-x-hidden">
 		<div class="container consulting__container">			
 			<div class="consulting__content">
-				<h2 class="title consulting__title">
+				<h2 class="title mt-0 consulting__title">
 					Consulting
 				</h2>
-				<div class="text consulting__text">
+				<div class="text mb-0 consulting__text">
 					<p>Creating strategy for product first launch and the following scaling.</p>
 				</div>	
 			</div>			
@@ -402,20 +436,20 @@
 	<!--consulting.end-->
 	
 	<!--cases.begin-->
-	<section class="cases">
-		<div class="container cases__container">
+	<section class="cases bg-white overflow-x-hidden">
+		<div class="container cases__container p-0">
 
 			<div class="cases__items">
 
 				<!--#-->
-				<div class="cases__item">					
-					<h2 class="title cases__title">
+				<div class="cases__item position-relative bg-light">					
+					<h2 class="title cases__title mt-0">
 						Metarun
 					</h2>
-					<div class="text cases__text">
+					<div class="text cases__text mb-0">
 						<p>First blockchain-based P2E and P2W endless mobile runner game with NFT Assets.</p>
 						<p>Services:</p>
-						<ul>
+						<ul class="mt-0 mb-0">
 							<li>Paid Traffic</li>
 							<li>Grow Marketing</li>
 							<li>Product Analytics</li>
@@ -425,14 +459,14 @@
 				<!--#-->
 
 				<!--#-->
-				<div class="cases__item">					
-					<h2 class="title cases__title">
+				<div class="cases__item position-relative">					
+					<h2 class="title cases__title mt-0">
 						Coinchange
 					</h2>
-					<div class="text cases__text">
+					<div class="text cases__text mb-0">
 						<p>Fintech company that generates yield for customers through blockchain-based financial instruments</p>
 						<p>Services:</p>
-						<ul>
+						<ul class="mt-0 mb-0">
 							<li>Paid Traffic</li>
 							<li>Grow Marketing</li>
 							<li>Product Analytics</li>
@@ -443,14 +477,14 @@
 				<!--#-->
 
 				<!--#-->
-				<div class="cases__item">					
-					<h2 class="title cases__title">
+				<div class="cases__item position-relative bg-light">					
+					<h2 class="title cases__title mt-0">
 						Encore
 					</h2>
-					<div class="text cases__text">
+					<div class="text cases__text mb-0">
 						<p>AAA free-to-play multiplayer shooter game with NFT assets</p>
 						<p>Services:</p>
-						<ul>
+						<ul class="mt-0 mb-0">
 							<li>Paid Traffic</li>
 							<li>Grow Marketing</li>
 							<li>Product Analytics</li>
@@ -460,14 +494,14 @@
 				<!--#-->
 
 				<!--#-->
-				<div class="cases__item">					
-					<h2 class="title cases__title">
+				<div class="cases__item position-relative">					
+					<h2 class="title cases__title mt-0">
 						Plaskee
 					</h2>
-					<div class="text cases__text">
+					<div class="text cases__text mb-0">
 						<p>Online dance platform</p>
 						<p>Services:</p>
-						<ul>
+						<ul class="mt-0 mb-0">
 							<li>Paid Traffic</li>
 							<li>Product Analytics</li>
 						</ul>						
@@ -476,14 +510,14 @@
 				<!--#-->
 
 				<!--#-->
-				<div class="cases__item">					
-					<h2 class="title cases__title">
+				<div class="cases__item position-relative bg-light">					
+					<h2 class="title cases__title mt-0">
 						The Hub App
 					</h2>
-					<div class="text cases__text">
+					<div class="text cases__text mb-0">
 						<p>Free Online Invitations With RSVP</p>
 						<p>Services:</p>
-						<ul>
+						<ul class="mt-0 mb-0">
 							<li>Paid Traffic</li>
 							<li>Grow Marketing</li>
 							<li>Product Analytics</li>
@@ -493,16 +527,16 @@
 				<!--#-->
 
 				<!--#-->
-				<div class="cases__item">					
-					<h2 class="title cases__title">
+				<div class="cases__item position-relative">					
+					<h2 class="title cases__title mt-0">
 						Selfstorage * | Local business promotion
 					</h2>
-					<div class="text cases__text">
+					<div class="text cases__text mb-0">
 						<p>* Company name changed</p>
 						<p>The goal is to increase the number of customers in a new individual storage warehouse.
 							Advertising platforms in Facebook ads and Google Ads. Regions: Austria.</p>
 						<p>Performed:</p>
-						<ul>
+						<ul class="mt-0 mb-0">
 							<li>Launched Facebook targeting, launched a search, and display advertising campaigns in Google Ads.</li>
 							<li>Managing attraction budgets and tracking performance to achieve KPIs.</li>
 							<li>Tracking key marketing indicators (CPA, CTR, CPC, etc.).</li>
@@ -520,35 +554,33 @@
 	<!--cases.end-->
 	
 	<!--wedo.begin-->
-	<section class="wedo">
+	<section class="wedo overflow-x-hidden">
 		<div class="container wedo__container">			
 			<div class="wedo__inner">
 				<div class="wedo__head">
-					<h2 class="title wedo__title" id="scrollToWhatElseWeDo">
+					<h2 class="title wedo__title">
 						What else we do
 					</h2>
 					<div class="text wedo__text">
-						<p>
-							We provide consulting services in preparing a UA strategy for investors and help with its implementation.
-						</p>
+						<p>We provide consulting services in preparing a UA strategy for investors and help with its implementation.</p>
 					</div>		
 				</div>
 				<div class="wedo__body">
 				
-					<div class="wedo__items">						
-						<figure class="wedo__item wedo__item-1">
-							<div class="wedo__item-picture">
-								<img class="hidden-xs" src="img/wedo/lp-1.jpg" srcset="img/wedo/lp-1@2x.jpg 2x" alt="">
-								<img class="hidden-lg hidden-md hidden-sm visible-xs" src="img/wedo/lp-mobile-1.jpg" srcset="img/wedo/lp-mobile-1@2x.jpg 2x" alt="">
+					<div class="wedo__items d-flex flex-column">						
+						<figure class="wedo__item">
+							<div class="wedo__picture">
+								<img class="d-none d-sm-block w-100 rounded shadow-none" src="img/wedo/lp-1.jpg" srcset="img/wedo/lp-1@2x.jpg 2x" alt="">
+								<img class="d-block d-sm-none w-100 rounded shadow-none" src="img/wedo/lp-mobile-1.jpg" srcset="img/wedo/lp-mobile-1@2x.jpg 2x" alt="">
 							</div>
-							<figcaption><h3 class="wedo__item-title">Design of landing pages and additional materials</h3></figcaption>
+							<figcaption><h3 class="wedo__subtitle">Design of landing pages and additional materials</h3></figcaption>
 					   </figure>
 					   <figure class="wedo__item">
-							<div class="wedo__item-picture">
-								<img class="hidden-xs" src="img/wedo/lp-2.jpg" srcset="img/wedo/lp-2@2x.jpg 2x" alt="">
-								<img class="hidden-lg hidden-md hidden-sm visible-xs" src="img/wedo/lp-mobile-2.jpg" srcset="img/wedo/lp-mobile-2@2x.jpg 2x" alt="">
+							<div class="wedo__picture">
+								<img class="d-none d-sm-block w-100 rounded shadow-none" src="img/wedo/lp-2.jpg" srcset="img/wedo/lp-2@2x.jpg 2x" alt="">
+								<img class="d-block d-sm-none w-100 rounded shadow-none" src="img/wedo/lp-mobile-2.jpg" srcset="img/wedo/lp-mobile-2@2x.jpg 2x" alt="">
 							</div>
-							<figcaption><h3 class="wedo__item-title">Design of landing pages and additional materials</h3></figcaption>
+							<figcaption><h3 class="wedo__subtitle">Design of landing pages and additional materials</h3></figcaption>
 					   </figure>
 					</div>
 					
@@ -559,9 +591,9 @@
 	<!--section-wecan.end-->
 	
 	<!--new-products.begin-->
-	<section class="new-products">
+	<section class="new-products overflow-x-hidden">
 		<div class="container new-products__container">			
-			<h2 class="title title--32 new-products__title">				
+			<h2 class="title title--32 new-products__title mb-0">				
 				<span class="new-products__typed-js"></span>
 			</h2>			
 		</div>
@@ -569,18 +601,17 @@
 	<!--new-products.end-->
 
 	<!--founders.begin-->
-	<section class="founders">
+	<section class="founders bg-white overflow-x-hidden">
 		<div class="container founders__container">			
 			<div class="founders__inner">
-				<h2 class="title" id="scrollToWhatElseWeDo" style="margin-bottom: 50px;">
+				<h2 class="title">
 					Who we are
 				</h2>
-
-				<div class="founders__items">
-					<div class="founders__item">
-						<img class="founders__photo" src="/img/co-founders/arefyeu.png" alt="">
-						<h3 class="founders__name">Aliaksandr Arefyeu</h3>
-						<p class="founders__position">Co-founder Godigitale</p>
+				<div class="founders__items row flex-column flex-md-row">
+					<div class="col-lg-6 col-12 founders__item d-flex flex-column align-items-center justify-content-center d-md-block">
+						<img class="founders__photo d-block" src="/img/co-founders/arefyeu.png" alt="">
+						<h3 class="founders__name my-0">Aliaksandr Arefyeu</h3>
+						<p class="founders__position my-0">Co-founder Godigitale</p>
 						<ul class="links founders__links">
 							<li class="links__item">
 								<a href="#" class="link link--dark" target="_blank"><span class="link__inner"><span>Facebook</span></span></a>
@@ -590,10 +621,10 @@
 							</li>
 						</ul>
 					</div>
-					<div class="founders__item">
-						<img class="founders__photo" src="/img/co-founders/antsipovich.png" alt="">
-						<h3 class="founders__name">Aliaksandr Antsipovich</h3>
-						<p class="founders__position">Co-founder Godigitale</p>
+					<div class="col-lg-6 col-12 founders__item mt-4 mt-lg-0 d-flex flex-column align-items-center justify-content-center d-md-block">
+						<img class="founders__photo d-block" src="/img/co-founders/antsipovich.png" alt="">
+						<h3 class="founders__name my-0">Aliaksandr Antsipovich</h3>
+						<p class="founders__position my-0">Co-founder Godigitale</p>
 						<ul class="links founders__links">
 							<li class="links__item">
 								<a href="#" class="link link--dark" target="_blank"><span class="link__inner"><span>Facebook</span></span></a>
@@ -610,15 +641,15 @@
 	<!--founders.end-->
 	
 	<!--footer.begin-->
-	<footer class="footer">
-		<div class="container footer__container">
+	<footer class="footer overflow-x-hidden">
+		<div class="container footer__container position-relative">
 			
-			<div class="footer__content">
+			<div class="footer__content text-white">
 				<div class="footer__head">
 					<h2 class="title footer__title">
 						Outsourcing with integrity
 					</h2>
-					<div class="text footer__text">
+					<div class="text footer__text text-white">
 						<p>
 							We can replace a team of specialists with less money and high quality 🙂 
 							If you want to start our cooperation or just want to chat, please contact us.
@@ -629,23 +660,23 @@
 				
 					<ul class="links footer__links">
 						<li class="links__item">
-							<a href="#" class="link link--light" target="_blank" id="writeOnFacebookBottom">
+							<a href="#" class="link link--light" target="_blank">
 								<span class="link__inner"><span>Write on Facebook</span></span>
 							</a>
 						</li>
 						<li class="links__item">
-							<a href="#" class="link link--light" target="_blank" id="writeOnLinkedInBottom">
+							<a href="#" class="link link--light" target="_blank">
 								<span class="link__inner"><span>LinkedIn</span></span>
 							</a>
 						</li>
 						<li class="links__item">
-							<a href="mailto:a@godigitale.com" class="link link--light" id="sendEmailBottom">
+							<a href="#" class="link link--light" target="_blank">
 								<span class="link__inner"><span>a@godigitale.com</span></span>
 							</a>
 						</li>
 					</ul>
 
-					<h2 class="title footer__title">
+					<h2 class="title footer__title mt-5 mb-4">
 						Fill the Form					
 					</h2>
 					<div data-tf-widget="fvTlqEpq" style="height: 500px;"></div>
@@ -653,14 +684,15 @@
 				
 				</div>
 			</div>
-			<div class="footer__jdun">
-				<img src="img/jdun.png" srcset="img/jdun@2x.png 2x" alt="">
+			<div class="footer__jdun position-absolute">
+				<img class="d-block" src="img/jdun.png" srcset="img/jdun@2x.png 2x" alt="">
 			</div>
 		</div>
 	</footer>
 	<!--footer.end-->		
 	
 	<!--scripts.begin-->
+	<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 	<script defer src="https://cdn.jsdelivr.net/gh/dixonandmoe/rellax@master/rellax.min.js"></script>
 	<script defer src="js/marquee.js"></script>
 	<script defer src="js/design-scroll.js"></script>
