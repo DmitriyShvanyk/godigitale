@@ -13,30 +13,10 @@
 	loadFonts("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 	loadFonts("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
 
+
 	// rellax
 	new Rellax(".rellax");
 
-	// tabs
-	document.querySelectorAll(".tabs__list").forEach((list) => {
-		list.addEventListener("click", (e) => {
-			const tab = e.target.closest("li:not(.current)");
-			if (!tab || !list.contains(tab)) return;
-
-			const tabItems = [...tab.parentElement.children];
-			tabItems.forEach((li) => li.classList.toggle("current", li === tab));
-
-			const boxes = tab.closest(".tabs")?.querySelectorAll(".tabs__box") ?? [];
-			const box = boxes[tabItems.indexOf(tab)];
-			if (!box) return;
-
-			[...box.parentElement.children].forEach((el) => {
-				if (el !== box && el.matches(".tabs__box")) el.style.display = "none";
-			});
-
-			box.style.display = "block";
-			box.animate([{ opacity: 0 }, { opacity: 1 }], 150);
-		});
-	});
 
 	// banners
 	new HorizontalScrollPin(document.querySelector(".design"), {
@@ -44,6 +24,7 @@
 		ratio: 3,
 		smooth: 0.1,
 	});
+
 
 	// typed text
 	const typingTasks = [
@@ -94,6 +75,7 @@
 			observer.observe(triggerEl);
 		}
 	});
+	
 
 	// marquee
 	Marquee.init(".marquee", {
