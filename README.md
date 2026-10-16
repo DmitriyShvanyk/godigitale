@@ -47,7 +47,7 @@ Core goals of the page:
 | CSS/JS framework | [Bootstrap 5.3.8](https://getbootstrap.com/) — both `bootstrap.min.css` and `bootstrap.bundle.min.js` loaded from jsDelivr, each pinned to the exact version with an SRI `integrity` hash. The CSS half provides the grid (`row`/`col-*`), flex and display utilities (`d-flex`, `d-none`, `position-*`), spacing (`mt-*`, `mb-*`, `p-0`), and text helpers (`text-white`, `text-nowrap`). The JS bundle powers exactly one native component: the Traffic/Chat-bot/Funnels tab switcher (`#myTabTraffic` / `#myTabTrafficContent`, `data-bs-toggle="tab"`) — nothing else on the page uses Bootstrap JS |
 | Styling | Custom CSS (`css/style.css`), BEM-style class naming (`block__element--modifier`), layered on top of Bootstrap and loaded after it so it can override Bootstrap defaults (e.g. a custom `.container` max-width) |
 | Icons | Font Awesome v5.8.1 (`fas`, `far` icon classes), loaded at runtime from `use.fontawesome.com` by `js/scripts.js` — see [Custom Scripts](#custom-scripts) |
-| Fonts | `'Space Mono'` self-hosted via `@font-face` (italic/bold/regular, `../fonts/SpaceMono-*.woff2`) for all headings/titles; body copy (`'Roboto', Arial, ...`) and an apparently-unused `'Roboto Mono'` are fetched from Google Fonts at runtime by `js/scripts.js`, not via a `<link>` in `<head>` — see [Custom Scripts](#custom-scripts) and [Known Issues](#known-issues) |
+| Fonts | All three families — `'Space Mono'` (headings/titles, `#myTabTrafficContent`, `.wedo__subtitle`), `'Roboto'` (body copy), and an apparently-unused `'Roboto Mono'` — are fetched from Google Fonts at runtime by `js/scripts.js`'s `loadFonts()` helper, not via a static `<link>` in `<head>`. No font is self-hosted anymore — see [Custom Scripts](#custom-scripts) and [Known Issues](#known-issues) |
 | Animation | [Rellax.js](https://github.com/dixonandmoe/rellax) (parallax, via CDN), custom `js/marquee.js` (infinite scroll ticker), custom `js/design-scroll.js` (scroll-linked horizontal banner strip) |
 | Typing effect | [Typed.js](https://github.com/mattboldt/typed.js) (`js/typed.js` library), lazily instantiated by `js/scripts.js` only for `.new-products__typed-js`, via `IntersectionObserver`; cursor blink keyframe lives in `style.css` |
 | Lead capture | [Typeform](https://www.typeform.com/) embed widget |
@@ -67,8 +67,6 @@ Core goals of the page:
 ├── site.webmanifest            # referenced in <head>, must exist at deploy root
 ├── css/
 │   └── style.css               # Custom stylesheet, loaded after Bootstrap (cache-busted via ?v=)
-├── fonts/
-│   └── SpaceMono-*.woff2                        # self-hosted font files referenced by @font-face
 ├── js/
 │   ├── marquee.js               # window.Marquee — infinite ticker (header keywords)
 │   ├── design-scroll.js         # window.HorizontalScrollPin — pinned horizontal banner scroll
@@ -104,18 +102,17 @@ Core goals of the page:
 | `theme-color`, `mobile-web-app-capable`, `format-detection` | ✅ Present |
 | Favicons | ✅ Full modern set: PNG 96×96, SVG, ICO fallback, Apple touch icon 180×180, `site.webmanifest` |
 | Bootstrap CSS | ✅ `bootstrap@5.3.8` pinned by exact version and SRI `integrity` hash — good practice, unlike the unpinned Rellax CDN reference (see [Known Issues](#known-issues)) |
-| `facebook-domain-verification` | ❌ **Not present.** Add it if Facebook Business Manager domain verification is required for this domain, or confirm verification is handled via a DNS TXT record instead |
 | Google Fonts | The `preconnect` hints to `fonts.googleapis.com` / `fonts.gstatic.com` are a deliberate pairing with `js/scripts.js`, which injects the actual Google Fonts `<link>` at runtime rather than in static `<head>` markup — see [Custom Scripts](#custom-scripts). This still has a FOUC/CLS cost; see [Known Issues](#known-issues) |
 
 ## CSS Architecture
 
 `style.css` loads after `bootstrap.min.css`, so the two are intentionally layered rather than independent:
 
-- **Mechanics in the markup, design in the stylesheet.** Layout-affecting properties (`display`, `position`, `flex-*`, margins/padding, text color/weight helpers) are increasingly expressed as Bootstrap utility classes directly on elements (`d-flex`, `position-absolute`, `text-white`, `mt-4`, `overflow-x-hidden`, …). `style.css` is reserved for values Bootstrap can't express: brand colors, exact pixel offsets (e.g. `.timeline__num-line-i{ top: -150px; left: -7px; }`), custom fonts, transitions and `@keyframes`.
+- **Mechanics in the markup, design in the stylesheet.** Layout-affecting properties (`display`, `position`, `flex-*`, margins/padding, text color/weight helpers) are increasingly expressed as Bootstrap utility classes directly on elements (`d-flex`, `position-absolute`, `text-white`, `mt-4`, `overflow-x-hidden`, …). `style.css` is reserved for values Bootstrap can't express: brand colors, exact pixel offsets (e.g. `.timeline__num-line-i{ top: -150px; left: -7px; }`), custom fonts, transitions and `@keyframes`. `overflow-x-hidden` in particular has been trimmed from sections that don't actually overflow (`.partner`, `.consulting`, `.cases`, `.wedo`, `.new-products`, `.founders`, and now `.footer` too) and kept only where something genuinely can (`.header`'s marquee, `.design`'s banner strip, `.timeline`'s horizontal scroller, and the shared `.traffic`/`.process` wrapper) — see [Known Issues](#known-issues) for why `.footer` losing it is worth a second look.
 - **Deliberate overrides of Bootstrap defaults.** `.container{ padding: 115px 12px; max-width: 1080px; }` intentionally overrides Bootstrap's own responsive `.container` widths/padding, since `style.css` loads later and matches Bootstrap's specificity. This is expected, not a bug — but it means `.container` behaves nothing like stock Bootstrap, which can surprise a contributor used to the framework's defaults.
 - **No custom grid system remains.** `style.css` defines no `.row` / `.col-*` rules of its own — every grid, including `.traffic`, now relies on Bootstrap's real grid classes.
 - **One component styled by ID, not BEM class.** The tab switcher's styling lives under `#myTabTraffic` / `#myTabTrafficContent` in `style.css`, because the markup itself is now Bootstrap's native Tab component (`.nav-link`, `.tab-pane`, …) rather than a custom `.tabs__*` BEM component. This is the one place in the stylesheet that departs from the project's class-based naming convention — worth knowing before copying the pattern elsewhere.
-- **Two different font-loading strategies, by design.** `'Space Mono'` (all headings/titles, `#myTabTrafficContent`, `.wedo__subtitle`) is self-hosted via `@font-face` pointing at `../fonts/`, so it's available immediately, render-blocking-free, as soon as `style.css` parses. `'Roboto'` (body copy) and Font Awesome are instead fetched from Google Fonts / `use.fontawesome.com` at runtime by `js/scripts.js`'s `loadFonts()` helper — see [Custom Scripts](#custom-scripts). The `<head>`'s `preconnect` hints exist specifically to warm up that later runtime fetch.
+- **No self-hosted fonts anymore.** `style.css` has no `@font-face` rules at all. `'Space Mono'` (headings/titles, `#myTabTrafficContent`, `.wedo__subtitle`), `'Roboto'` (body copy), and `'Roboto Mono'` are all fetched from Google Fonts at runtime by `js/scripts.js`'s `loadFonts()` helper. The `<head>`'s `preconnect` hints exist specifically to warm up that runtime fetch — see [Custom Scripts](#custom-scripts) and [Known Issues](#known-issues).
 
 ## Page Sections
 
@@ -123,7 +120,8 @@ Core goals of the page:
 |---|---|
 | `.header` | `.navbar` (logo only) + `.header__content` hero headline + `.marquee` infinite ticker of service keywords. Carries Bootstrap's `overflow-x-hidden`, which the ticker depends on — see [Custom Scripts](#custom-scripts) |
 | `.partner` | "Just Relax with Music" — live embedded Spotify playlist link |
-| `.traffic` | Intro copy + a native Bootstrap Tab component (`#myTabTraffic` nav + `#myTabTrafficContent` panes) switching between three panels — see [Known Issues](#known-issues) for a label/content mismatch on the middle tab — **and** a nested `.process` block (Marketing automation, Rellax parallax illustration). `.process` is a plain `<div>` inside this `<section>`, not its own top-level section — see [Known Issues](#known-issues) |
+| `.traffic` | Intro copy + a native Bootstrap Tab component (`#myTabTraffic` nav + `#myTabTrafficContent` panes) switching between three panels. Shares a plain, class-only `<div class="bg-white overflow-x-hidden">` wrapper with `.process` (no semantic role itself — just a shared background/overflow container for the two sibling sections) |
+| `.process` | Marketing automation blurb + Rellax parallax illustration. Its own `<section>`, sibling to `.traffic` inside the shared wrapper above |
 | `.design` | `.design__banners` — pinned, scroll-driven horizontal banner strip (see [Custom Scripts](#custom-scripts)) + growth marketing/analytics copy. The section itself carries Bootstrap's `overflow-hidden`, which clips the strip at rest without interfering with the sticky pin |
 | `.timeline` | 9-step numbered `.timeline__box` process + nested `.deadlines` commitment block (now a real Bootstrap grid row: `col-12 col-md-7` / `col-12 col-sm-4 offset-md-1`), in the same `<section>` |
 | `.reports` | Reporting transparency callout |
@@ -152,7 +150,7 @@ Everything on the page that isn't handled by Bootstrap's own JS or by one of the
     link.href = linkHref;
     head.appendChild(link);
   }
-  loadFonts("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+  loadFonts("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
   loadFonts("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
 
   // rellax
@@ -193,7 +191,7 @@ Everything on the page that isn't handled by Bootstrap's own JS or by one of the
 Note what's *not* here: there is no tab-switching logic, because the Traffic/Chat-bot/Funnels tabs are now Bootstrap's own native Tab component (`data-bs-toggle="tab"`), wired up automatically by `bootstrap.bundle.min.js` with no custom JS needed.
 
 **Font/icon loading.** `loadFonts()` injects the Google Fonts and Font Awesome stylesheets at runtime instead of listing them as static `<link>` tags in `<head>` — which is why the `<head>`'s Google Fonts `preconnect` hints exist with no matching static `<link rel="stylesheet">`; the pairing is intentional, the stylesheet request just happens from JS instead. Practical consequences:
-- **FOUC / layout shift risk.** The `<link>` is appended after the script runs, not during initial HTML parsing, so body text (and icons) first paint in their fallback fonts and reflow once the request resolves. `font-display: swap` on the self-hosted `@font-face` rules doesn't help here, since this isn't `@font-face` — it's a plain external stylesheet with no `display=swap`-equivalent control over FOIT/FOUT beyond what Google's `&display=swap` query param already provides for the Google Fonts half.
+- **FOUC / layout shift risk.** The `<link>` is appended after the script runs, not during initial HTML parsing, so headings, body text, and icons all first paint in their fallback fonts and reflow once the request resolves. The only mitigation in place is the `&display=swap` query param on the Google Fonts request itself, which controls FOIT/FOUT but not the delay before the request even starts.
 - **Depends on JS executing.** If `js/scripts.js` fails to load or run (ad blocker, script error, JS disabled), neither Roboto nor Font Awesome ever loads — there's no `<noscript>` fallback `<link>`.
 - **`'Roboto Mono'` is fetched but not referenced.** The Google Fonts request pulls both `Roboto` and `Roboto+Mono`, but no selector in `style.css` sets `font-family: 'Roboto Mono'` — likely a harmless bit of over-fetching, or a font used somewhere not shown here.
 - **Font Awesome is pinned to an old major version (v5.8.1).** Works, but is several majors behind current Font Awesome releases — worth a deliberate upgrade decision rather than an oversight.
@@ -241,7 +239,7 @@ Uses `position: sticky` by default and automatically switches to a JS-driven `po
 - **Rellax.js** — loaded from jsDelivr, unpinned (`dixonandmoe/rellax@master`), initialized once in `js/scripts.js` via `new Rellax(".rellax")`. Lock to a specific tag/commit before shipping to production.
 - **Facebook / LinkedIn / email** — all three footer contact links and both founders' social links currently point to `href="#"` placeholders, including the email entry, which previously linked to `mailto:a@godigitale.com` — see [Known Issues](#known-issues). Update with real destination URLs before launch.
 - **Spotify** — a real, working playlist embed link in `.partner` (not a placeholder).
-- **Google Fonts** — `Roboto` (body) + `Roboto Mono` (apparently unused) fetched from `fonts.googleapis.com` at runtime by `js/scripts.js`'s `loadFonts()` helper, not via a static `<head>` `<link>` — see [Custom Scripts](#custom-scripts).
+- **Google Fonts** — `Space Mono` (headings/titles), `Roboto` (body), and `Roboto Mono` (apparently unused) all fetched from `fonts.googleapis.com` at runtime by `js/scripts.js`'s `loadFonts()` helper, not via a static `<head>` `<link>` — see [Custom Scripts](#custom-scripts).
 - **Font Awesome** — `fas`/`far` icon classes (tabs), loaded at runtime from `use.fontawesome.com/releases/v5.8.1/` by the same `loadFonts()` helper.
 
 ## Getting Started
@@ -274,8 +272,8 @@ Then open `http://localhost:<port>` in your browser.
 | Colors, fonts, exact offsets, animations | `css/style.css` |
 | Marquee keywords | `.marquee__list` items in `index.html`; init options in `js/scripts.js` via `Marquee.init('.marquee', {...})` |
 | Banner strip behavior | `ratio` / `smooth` / `top` options passed to `new HorizontalScrollPin(...)` in `js/scripts.js` |
-| Tabs content (Traffic / Chat-bot / Funnels) | The `#myTabTraffic` nav + `#myTabTrafficContent` panes inside `.traffic`; it's Bootstrap's native Tab markup, so adding/renaming a tab means keeping the button's `id`, its `data-bs-target`, the matching `tab-pane`'s `id`, and `aria-controls`/`aria-labelledby` all in sync — see [Known Issues](#known-issues) for what happens when they drift |
-| Marketing automation blurb / illustration | The nested `.process` block inside `.traffic` |
+| Tabs content (Traffic / Chat-bot / Funnels) | The `#myTabTraffic` nav + `#myTabTrafficContent` panes inside `.traffic`; it's Bootstrap's native Tab markup, so adding/renaming a tab means keeping the button's `id`, its `data-bs-target`, the matching `tab-pane`'s `id`, and `aria-controls`/`aria-labelledby` all in sync |
+| Marketing automation blurb / illustration | The `.process` section (sibling of `.traffic`, sharing its `bg-white overflow-x-hidden` wrapper `<div>`) |
 | Timeline steps | `.timeline__item` blocks inside `.timeline__box` |
 | Case studies | Duplicate a `.cases__item` block and update copy/services list |
 | "New products" headline strip | `.new-products__typed-js` target + the matching `typingTasks` entry in `js/scripts.js` (strings, typing speed, scroll-trigger threshold) |
@@ -300,15 +298,15 @@ Targets evergreen modern browsers (Chrome, Firefox, Safari, Edge), same baseline
 
 ## Known Issues
 
-- **`.process` is no longer its own `<section>`.** It's now a `<div class="process bg-white">` nested inside `<section class="traffic">`, so "Paid Traffic" and "Marketing automation" — two unrelated topics — now share a single section landmark, and the `.process__title` `<h2>` sits under the Traffic section's own `<h2>`. Worth a second look from an accessibility/document-outline perspective; flatten back into a sibling `<section>` if that matters for this project.
-- **Body font and Font Awesome load late, with no `<noscript>` fallback.** Both are fetched by `js/scripts.js`'s `loadFonts()` helper at runtime rather than via static `<link>` tags in `<head>`, so there's an unavoidable window where body text and icons render in fallback styles before reflowing — a FOUC/CLS cost that wouldn't exist with a static `<link>`, and a dependency on JS actually executing. See [Custom Scripts](#custom-scripts) for detail; consider moving these two to static `<link>` tags in `<head>` if the layout shift is visible in practice.
+- **Every custom font and Font Awesome load late, with no `<noscript>` fallback.** `style.css` has no `@font-face` left at all — `'Space Mono'` (used for every heading/title, not just body copy), `'Roboto'`, and Font Awesome are all fetched by `js/scripts.js`'s `loadFonts()` helper at runtime rather than via static `<link>` tags in `<head>`. This means the whole page, headings included, first paints in fallback fonts and reflows once the request resolves — a FOUC/CLS cost that wouldn't exist with a static `<link>` or a self-hosted `@font-face`, and a dependency on JS actually executing. See [Custom Scripts](#custom-scripts) for detail; consider moving these to static `<link>` tags, or self-hosting `'Space Mono'` again, if the layout shift is visible in practice.
 - **`'Roboto Mono'` is fetched but never referenced** by any selector in `style.css` — minor over-fetching, or used somewhere not shown here.
 - **Font Awesome is pinned to v5.8.1**, several majors behind current releases — fine functionally, but worth a deliberate upgrade decision.
+- **Possible orphaned local font files.** If `fonts/SpaceMono-*.woff2` are still in the repository, nothing references them anymore now that `'Space Mono'` loads from Google Fonts instead — safe to delete unless self-hosting is restored.
 - **Design banners may be stretched.** `.design__banner > img` is fixed to `min-height`/`max-height: 299px` in `style.css`, while the markup now adds Bootstrap's `w-100` to the same `<img>`. The previous revision paired the fixed height with `width: auto` specifically to preserve each banner's aspect ratio; with `w-100` forcing `width: 100%` as well, most banners will be distorted unless every source image already matches the exact rendered aspect ratio. Verify visually and consider `object-fit: cover` instead of fighting both dimensions.
-- **The second tab's visible label doesn't match its content.** The tab labeled **"Profile"** (`id="profile-tab"` / `id="profile-tab-pane"`) actually displays the chatbot copy ("Messages in chatbots…"). The `profile-tab`/`profile-tab-pane` ids are literally Bootstrap's own documentation example ids, left over from copying their Tabs snippet — the other two tabs were renamed (`trafic-tab`, `funnels-tab`) but this one wasn't fully renamed in either its ids or its visible label. Rename the label back to "Chat-bot" and update the leftover `profile-*` ids for consistency.
 - **Footer email link no longer works.** It used to be `href="mailto:a@godigitale.com"`; it's now `href="#"` like the Facebook/LinkedIn placeholders next to it, which means the one contact method that was previously real and functional has regressed into a dead link. Restore the `mailto:` link.
 - **Identical captions on both `.wedo__item` samples** — both figures read "Design of landing pages and additional materials" despite showing different images (`lp-1` vs `lp-2`). Looks like a copy-paste leftover; give each its own caption.
-- **`facebook-domain-verification` meta absent** — confirm with whoever owns Facebook Business Manager for this domain whether verification is required and, if so, add the tag or confirm it's handled via DNS.
+- **Mobile footer links now visibly double their border.** On narrow screens `.footer__links .link` gets a full `border: 2px solid rgba(255,255,255,.2)` on all sides, and `.footer__links .links__item+.link__item .link { border-top: none; }` is meant to strip it between stacked items — but the class is misspelled (`.link__item` instead of `.links__item`), so that selector never matches anything. This used to be mostly harmless, because the stacked `<li>`s had `mt-2` spacing between them, so each bordered chip stood apart with no shared edge. That spacing (`mt-2 mt-lg-0`) was since removed from the second and third footer link items, so the chips now sit flush against each other — which means the never-firing `border-top: none` rule now produces a real, visible doubled border line between adjacent items. Fix the selector to `.links__item+.links__item .link` (or restore the `mt-2` spacing if touching chips weren't the intent).
+- **`.footer__jdun`'s mobile flip/rotate never applies.** The mobile media query sets `.footer__ img { transform: scale(-1, 1) rotate(-15deg); }`, but `.footer__` isn't a real class on anything — it's a truncated selector, almost certainly meant to be `.footer__jdun img`. The image renders at full size, unflipped and unrotated, on mobile. Combined with `.footer` recently losing its `overflow-x-hidden`, worth checking whether the absolutely-positioned `.footer__jdun` illustration (`left: 0; bottom: -40px` on mobile) now overflows the viewport horizontally without the intended smaller, rotated version of itself.
 - **Footer and founder Facebook/LinkedIn links are `href="#"` placeholders** — replace with real URLs before launch.
 - **Rellax.js pinned to `@master`** — unpinned CDN dependency, unlike the now-pinned Bootstrap CSS; a future upstream change could silently alter parallax behavior in production.
 - **`design-scroll.js` fixed-mode fallback depends on ancestor overflow** — if any ancestor of `.design` has `overflow: hidden/auto/scroll`, `position: sticky` is silently ignored by the browser; the script detects this and falls back automatically, but confirm no new wrapping element was introduced around `.design` without re-checking this (the section's own `overflow-hidden` is not the issue — only ancestors are).
@@ -320,23 +318,7 @@ Being fully static, this project deploys to any static host:
 - GitHub Pages
 - S3 + CloudFront / any CDN
 
-**Pre-deploy checklist:**
-- [ ] Decide whether `.process` should be its own top-level `<section>` again, for document-outline/accessibility reasons
-- [ ] Decide whether the runtime-injected Google Fonts / Font Awesome `<link>`s (`js/scripts.js`'s `loadFonts()`) cause a visible FOUC/CLS hit, and move them to static `<head>` `<link>` tags if so
-- [ ] Confirm `'Roboto Mono'` is actually used somewhere, or stop fetching the unused Google Fonts weight
-- [ ] Consider upgrading Font Awesome off the pinned v5.8.1
-- [ ] Check `.design__banner` images for stretching caused by combining `w-100` with fixed `min/max-height`
-- [ ] Fix the "Profile"-labeled tab's label/content mismatch and its leftover `profile-tab`/`profile-tab-pane` ids
-- [ ] Restore the footer email link to `mailto:a@godigitale.com` (currently `href="#"`)
-- [ ] Confirm `og:image` / `twitter:image` asset (`img/og-cover.jpg`) exists and is a proper social-preview size (min. 1200×630)
-- [ ] Confirm all favicon/manifest files exist at the referenced paths (`/favicon-96x96.png`, `/favicon.svg`, `/favicon.ico`, `/apple-touch-icon.png`, `/site.webmanifest`)
-- [ ] Fix duplicate caption on the two `.wedo__item` samples
-- [ ] Add `facebook-domain-verification` meta tag if still required, or confirm alternate verification
-- [ ] Pin the Rellax.js CDN reference to a version tag instead of `@master`
-- [ ] Replace placeholder Facebook/LinkedIn hrefs (footer + founders) with production values (separate from the email regression above)
-- [ ] Verify Typeform widget ID belongs to the correct form
-- [ ] Confirm no ancestor of `.design` introduces `overflow: hidden/auto/scroll` (check the console for a `[HorizontalScrollPin]` fallback warning)
-- [ ] Run Lighthouse for performance/accessibility/SEO pass (marquee/parallax/pinned-scroll animations can impact CLS/perf scores)
+Everything that needs attention before launch is tracked in [Known Issues](#known-issues).
 
 ## Contributing
 
@@ -344,7 +326,7 @@ Being fully static, this project deploys to any static host:
 2. Prefer Bootstrap utility classes for layout mechanics (spacing, flex, position, visibility) and reserve `css/style.css` for bespoke visual values — mixing the two approaches in the same property is how a past `.traffic` grid regression happened (now fixed).
 3. Keep to the existing BEM-ish naming convention for component classes — avoid introducing inline `style=""` attributes.
 4. Avoid introducing a build step, a JS framework beyond what Bootstrap's bundle already provides, or a jQuery dependency unless the team agrees to it — the project is intentionally build-free.
-5. When duplicating Bootstrap's Tab markup (adding another tab), keep the button `id`, its `data-bs-target`, the matching `tab-pane`'s `id`, and `aria-controls`/`aria-labelledby` all in sync — a partially-renamed copy is exactly how the current "Profile" tab/content mismatch happened (see [Known Issues](#known-issues)).
+5. When duplicating Bootstrap's Tab markup (adding another tab), keep the button `id`, its `data-bs-target`, the matching `tab-pane`'s `id`, and `aria-controls`/`aria-labelledby` all in sync — a partially-renamed copy once left a tab labeled "Profile" showing chatbot content, since fixed.
 6. Test on mobile viewport widths before opening a PR (site relies on Bootstrap's `d-none`/`d-*-block` classes for responsive swaps).
 7. Run an HTML validator before merging — duplicate IDs are easy to reintroduce silently.
 
